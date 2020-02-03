@@ -1,4 +1,6 @@
 import axios from 'axios';
+
+import { createMessage, returnErrors } from './messages';
 import { GET_POSTS, DELETE_POST, ADD_POST } from './types';
 
 // Get Posts Action
@@ -11,7 +13,9 @@ export const getPosts = () => dispatch => {
         payload: res.data
       });
     })
-    .catch(err => console.log(err));
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
 };
 
 // Delete Post Action
@@ -19,6 +23,7 @@ export const deletePost = id => dispatch => {
   axios
     .delete(`/api/posts/${id}/`)
     .then(res => {
+      dispatch(createMessage({ deletePost: 'Post Deleted' }));
       dispatch({
         type: DELETE_POST,
         payload: id
@@ -32,10 +37,13 @@ export const addPost = post => dispatch => {
   axios
     .post('/api/posts/', post)
     .then(res => {
+      dispatch(createMessage({ addPost: 'Post Added' }));
       dispatch({
         type: ADD_POST,
         payload: res.data
       });
     })
-    .catch(err => console.log(err));
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
 };

@@ -22,6 +22,11 @@ export class Form extends Component {
     const { title, content, imageUrl } = this.state;
     const post = { title, content, imageUrl };
     this.props.addPost(post);
+    this.setState({
+      title: '',
+      content: '',
+      imageUrl: ''
+    });
   };
 
   render() {
