@@ -11,19 +11,19 @@ export class Alerts extends Component {
   componentDidUpdate(prevProps) {
     const { error, alert, message } = this.props;
     if (error !== prevProps.error) {
-      if (error.msg.title) {
-        alert.error(`Title: ${error.msg.title.join()}`);
-      }
-      if (error.msg.content) {
+      if (error.msg.title) alert.error(`Title: ${error.msg.title.join()}`);
+      if (error.msg.content)
         alert.error(`Content: ${error.msg.content.join()}`);
-      }
-      if (error.msg.imageUrl) {
+      if (error.msg.imageUrl)
         alert.error(`Image Link: ${error.msg.imageUrl.join()}`);
-      }
+      if (error.msg.non_field_errors)
+        alert.error(error.msg.non_field_errors.join());
+      if (error.msg.username) alert.error(error.msg.username.join());
     }
     if (message !== prevProps.message) {
       if (message.deletePost) alert.success(message.deletePost);
       if (message.addPost) alert.success(message.addPost);
+      if (message.passwordNotMatch) alert.error(message.passwordNotMatch);
     }
   }
   render() {
